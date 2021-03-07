@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MyBankApplication</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+
+    <string name="login">LOGIN</string>
+    <string name="username">Id</string>
+    <string name="text_id_compte">Idenitifant compte</string>
+    <string name="button_disconnect">Disconnect</string>
+    <string name="button_refresh">Refresh</string>
+    <string name="listview">listview</string>
+</resources>
