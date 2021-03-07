@@ -11,4 +11,5 @@
     <string name="button_disconnect">Disconnect</string>
     <string name="button_refresh">Refresh</string>
     <string name="listview">listview</string>
+    <string name="password">password</string>
 </resources>

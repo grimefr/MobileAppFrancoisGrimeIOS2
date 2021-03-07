@@ -1,8 +1,6 @@
 package com.example.mybankapplication
 
 import android.os.Bundle
-import android.util.Base64
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
@@ -16,19 +14,14 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-import java.io.UnsupportedEncodingException
-import java.security.InvalidKeyException
-import java.security.NoSuchAlgorithmException
-import java.security.spec.InvalidKeySpecException
 import java.util.*
-import javax.crypto.*
-import javax.crypto.spec.DESKeySpec
 
 class MainActivity : AppCompatActivity() {
 
     init {
         System.loadLibrary("urlC")
     }
+
     external fun geturl(): String
     external fun getMasterKEY(): String
 
@@ -36,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         BuildConfig.APPLICATION_ID
+
+
+        //database
         val factory = SupportFactory(SQLiteDatabase.getBytes(getMasterKEY().toCharArray()))
         val db = Room.databaseBuilder(
                 applicationContext,
@@ -44,8 +40,7 @@ class MainActivity : AppCompatActivity() {
                 .build()
 
 
-
-
+        //tls
         val request = Request.Builder()
             .url(geturl())
             .build()
@@ -70,6 +65,8 @@ class MainActivity : AppCompatActivity() {
             )
             .build()
 
+
+        //retrofit
         val rf = Retrofit.Builder()
             .baseUrl(geturl())
             .addConverterFactory(GsonConverterFactory.create())
@@ -91,74 +88,15 @@ class MainActivity : AppCompatActivity() {
                 response: Response<List<PostModel?>?>
             ) {
                 runOnUiThread{
-                    val postlist : List<PostModel>? = response.body() as List<PostModel>
+                    //val postlist : List<PostModel>? = response.body() as List<PostModel>
 
-                    val test:TextView = findViewById(R.id.textView)
-                    test.text = "id :" + postlist?.get(1)?.id.toString() + " | iban : " + postlist?.get(1)?.iban.toString()
+                    //val test:TextView = findViewById(R.id.textView)
+                    //test.text = "id :" + postlist?.get(1)?.id.toString() + " | iban : " + postlist?.get(1)?.iban.toString()
 
                 }
 
 
             }
         })
-    }
-
-    private val cryptoPass = "Vfd57h5wv4kfMy81hzgziejdnezd"
-
-    fun encryptIt(value: String): String? {
-
-        try {
-            val keySpec = DESKeySpec(cryptoPass.toByteArray(charset("UTF8")))
-            val keyFactory: SecretKeyFactory = SecretKeyFactory.getInstance("DES")
-            val key: SecretKey = keyFactory.generateSecret(keySpec)
-            val clearText = value.toByteArray(charset("UTF8"))
-            // Cipher is not thread safe
-            val cipher: Cipher = Cipher.getInstance("DES")
-            cipher.init(Cipher.ENCRYPT_MODE, key)
-            return Base64.encodeToString(cipher.doFinal(clearText), Base64.DEFAULT)
-        } catch (e: InvalidKeyException) {
-            e.printStackTrace()
-        } catch (e: UnsupportedEncodingException) {
-            e.printStackTrace()
-        } catch (e: InvalidKeySpecException) {
-            e.printStackTrace()
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        } catch (e: BadPaddingException) {
-            e.printStackTrace()
-        } catch (e: NoSuchPaddingException) {
-            e.printStackTrace()
-        } catch (e: IllegalBlockSizeException) {
-            e.printStackTrace()
-        }
-        return value
-    }
-    fun decryptIt(value: String): String? {
-        try {
-            val keySpec = DESKeySpec(cryptoPass.toByteArray(charset("UTF8")))
-            val keyFactory = SecretKeyFactory.getInstance("DES")
-            val key = keyFactory.generateSecret(keySpec)
-            val encrypedPwdBytes = Base64.decode(value, Base64.DEFAULT)
-            // cipher is not thread safe
-            val cipher = Cipher.getInstance("DES")
-            cipher.init(Cipher.DECRYPT_MODE, key)
-            val decrypedValueBytes = cipher.doFinal(encrypedPwdBytes)
-            return String(decrypedValueBytes)
-        } catch (e: InvalidKeyException) {
-            e.printStackTrace()
-        } catch (e: UnsupportedEncodingException) {
-            e.printStackTrace()
-        } catch (e: InvalidKeySpecException) {
-            e.printStackTrace()
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        } catch (e: BadPaddingException) {
-            e.printStackTrace()
-        } catch (e: NoSuchPaddingException) {
-            e.printStackTrace()
-        } catch (e: IllegalBlockSizeException) {
-            e.printStackTrace()
-        }
-        return value
     }
 }
