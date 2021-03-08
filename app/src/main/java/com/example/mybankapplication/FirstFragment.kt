@@ -11,6 +11,11 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 
 class FirstFragment : Fragment() {
+
+    init {
+        System.loadLibrary("urlC")
+    }
+
     external fun getPassword(): String
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +33,9 @@ class FirstFragment : Fragment() {
 
             val password = view.findViewById(R.id.password) as EditText
             val value = password.text.toString()
-            login(value)
+
+
+            login(sanitize(value))
         }
     }
 
@@ -43,5 +50,9 @@ class FirstFragment : Fragment() {
             toast.show()
         }
 
+    }
+
+    fun sanitize(value:String): String {
+        return value.trim('/','.','\'',' ','`','(',')','=','+','\"')
     }
 }

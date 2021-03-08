@@ -6,6 +6,4 @@ class PostModel {
     var amount: String = ""
     var iban: String =  ""
     var currency: String =  ""
-
-
 }

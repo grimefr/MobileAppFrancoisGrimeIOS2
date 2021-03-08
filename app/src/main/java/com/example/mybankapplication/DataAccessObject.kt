@@ -1,15 +1,17 @@
 package com.example.mybankapplication
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface UserDao {
     @Query("SELECT * FROM entities")
     fun getAll(): List<Entities>
 
+    @Query("SELECT * FROM entities WHERE uid IS (:id)")
+    fun searchId(id: String): Entities
+
+    @Update
+    fun update(vararg users: Entities)
     @Insert
     fun insert(entities: Entities)
 

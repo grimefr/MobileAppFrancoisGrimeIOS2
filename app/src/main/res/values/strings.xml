@@ -12,4 +12,5 @@
     <string name="button_refresh">Refresh</string>
     <string name="listview">listview</string>
     <string name="password">password</string>
+    <string name="TextView">Api</string>
 </resources>
