@@ -104,6 +104,11 @@ class SecondFragment : Fragment() {
             override fun onFailure(call: Call<List<PostModel?>?>, t: Throwable) {
                 val toast = Toast.makeText(requireContext(), "You need to be online to refresh your accounts", Toast.LENGTH_SHORT)
                 toast.show()
+                Thread {
+                    val userDao = db.userDao()
+                    var data = view.findViewById<TextView>(R.id.textView)
+                    data.text = userDao.getAll().toString()
+                }.start()
 
             }
 
