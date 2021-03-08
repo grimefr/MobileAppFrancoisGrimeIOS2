@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import okhttp3.internal.wait
+import java.lang.Thread.sleep
 
 class FirstFragment : Fragment() {
 
@@ -45,7 +47,7 @@ class FirstFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
         else {
-
+            sleep(5000)
             val toast = Toast.makeText(context,"Error in the password",Toast.LENGTH_SHORT)
             toast.show()
         }
